@@ -20,7 +20,7 @@ type Client struct {
 type AccessToken struct {
 	TokenType string `json:"token_type"`
 	Token     string `json:"access_token"`
-	ExpiresIn string `json:"expires_in"`
+	ExpiresIn int64  `json:"expires_in"`
 }
 
 func NewClient(url, apiToken *string) (*Client, error) {
@@ -35,7 +35,10 @@ func NewClient(url, apiToken *string) (*Client, error) {
 	}
 	defer resp.Body.Close()
 
-	json.NewDecoder(resp.Body).Decode(&token)
+	err = json.NewDecoder(resp.Body).Decode(&token)
+	if err != nil {
+		return nil, err
+	}
 
 	return &Client{
 		baseURL: *url,
