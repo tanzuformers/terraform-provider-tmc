@@ -39,7 +39,9 @@ func Provider() *schema.Provider {
 		},
 
 		// List of Resources supported by the provider
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"tmc_clustergroup": resourceClusterGroup(),
+		},
 	}
 
 	provider.ConfigureContextFunc = func(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
