@@ -56,7 +56,7 @@ func resourceClusterGroupCreate(ctx context.Context, d *schema.ResourceData, m i
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Create ClusterGroup Failed",
-			Detail:   "Cannot Create a new Cluster Group with the given values",
+			Detail:   err.Error(),
 		})
 		return diags
 	}
@@ -81,7 +81,7 @@ func resourceClusterGroupRead(ctx context.Context, d *schema.ResourceData, m int
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Read ClusterGroup Failed",
-			Detail:   "Cannot Read a new Cluster Group with the given values",
+			Detail:   err.Error(),
 		})
 		return diags
 	}
@@ -91,7 +91,7 @@ func resourceClusterGroupRead(ctx context.Context, d *schema.ResourceData, m int
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Set Description ClusterGroup Failed",
-			Detail:   "Cannot set description for Cluster Group with the given values",
+			Detail:   err.Error(),
 		})
 		return diags
 	}
@@ -102,7 +102,7 @@ func resourceClusterGroupRead(ctx context.Context, d *schema.ResourceData, m int
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  message,
-			Detail:   "Cannot set labels for Cluster Group with the given values",
+			Detail:   err.Error(),
 		})
 		return diags
 	}
@@ -151,7 +151,7 @@ func resourceClusterGroupDelete(ctx context.Context, d *schema.ResourceData, m i
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Delete ClusterGroup Failed",
-			Detail:   "Cannot Delete Cluster Group with the given values",
+			Detail:   err.Error(),
 		})
 		return diags
 	}

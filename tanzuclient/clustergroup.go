@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 type ClusterGroup struct {
@@ -14,8 +15,12 @@ type ClusterGroup struct {
 	Meta *MetaData `json:"meta"`
 }
 
-type ClusterGroupResponse struct {
+type ClusterGroupJsonObject struct {
 	ClusterGroup ClusterGroup `json:"clusterGroup"`
+}
+
+type AllClusterGroups struct {
+	ClusterGroups []ClusterGroup `json:"clusterGroups"`
 }
 
 // Fetch Details about an existing Cluster Group using its name
@@ -27,7 +32,7 @@ func (c *Client) GetClusterGroup(name string) (*ClusterGroup, error) {
 		return nil, err
 	}
 
-	res := ClusterGroupResponse{}
+	res := ClusterGroupJsonObject{}
 
 	if err := c.sendRequest(req, &res); err != nil {
 		return nil, err
@@ -38,7 +43,7 @@ func (c *Client) GetClusterGroup(name string) (*ClusterGroup, error) {
 
 // Create a new Cluster Group with a given name.
 // Also accepts a description for the Cluster Group and
-// a set of labels to be added
+// a set of labels to be added to the Cluster Group
 func (c *Client) CreateClusterGroup(name string, description string, labels map[string]interface{}) (*ClusterGroup, error) {
 
 	requestURL := c.baseURL + "/v1alpha1/clustergroups"
@@ -53,7 +58,7 @@ func (c *Client) CreateClusterGroup(name string, description string, labels map[
 		},
 	}
 
-	newCgObject := &ClusterGroupResponse{
+	newCgObject := &ClusterGroupJsonObject{
 		ClusterGroup: *newClusterGroup,
 	}
 
@@ -68,7 +73,7 @@ func (c *Client) CreateClusterGroup(name string, description string, labels map[
 		return nil, err
 	}
 
-	res := ClusterGroupResponse{}
+	res := ClusterGroupJsonObject{}
 
 	if err := c.sendRequest(req, &res); err != nil {
 		return nil, err
@@ -77,6 +82,7 @@ func (c *Client) CreateClusterGroup(name string, description string, labels map[
 	return &res.ClusterGroup, nil
 }
 
+// Deletes an already existing Cluster Group with a given name.
 func (c *Client) DeleteClusterGroup(name string) error {
 	requestURL := c.baseURL + "/v1alpha1/clustergroups/" + name
 
@@ -85,7 +91,7 @@ func (c *Client) DeleteClusterGroup(name string) error {
 		return err
 	}
 
-	res := ClusterGroupResponse{}
+	res := ClusterGroupJsonObject{}
 
 	if err := c.sendRequest(req, &res); err != nil {
 		return err
@@ -94,6 +100,9 @@ func (c *Client) DeleteClusterGroup(name string) error {
 	return nil
 }
 
+// Updates the Cluster Group using its name.
+// Only the description and labels can be updated.
+// Changing the Name forces replacement
 func (c *Client) UpdateClusterGroup(name string, description string, labels map[string]interface{}) (*ClusterGroup, error) {
 
 	requestURL := c.baseURL + "/v1alpha1/clustergroups/" + name
@@ -108,7 +117,7 @@ func (c *Client) UpdateClusterGroup(name string, description string, labels map[
 		},
 	}
 
-	newCgObject := &ClusterGroupResponse{
+	newCgObject := &ClusterGroupJsonObject{
 		ClusterGroup: *newClusterGroup,
 	}
 
@@ -123,11 +132,52 @@ func (c *Client) UpdateClusterGroup(name string, description string, labels map[
 		return nil, err
 	}
 
-	res := ClusterGroupResponse{}
+	res := ClusterGroupJsonObject{}
 
 	if err := c.sendRequest(req, &res); err != nil {
 		return nil, err
 	}
 
 	return &res.ClusterGroup, nil
+}
+
+func (c *Client) GetAllClusterGroups(labels map[string]interface{}) (*[]ClusterGroup, error) {
+
+	queryString := buildLabelQuery(labels)
+
+	requestURL := c.baseURL + "/v1alpha1/clustergroups?query=" + queryString
+
+	req, err := http.NewRequest("GET", requestURL, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &AllClusterGroups{}
+
+	if err := c.sendRequest(req, &res); err != nil {
+		return nil, err
+	}
+
+	return &res.ClusterGroups, nil
+}
+
+func buildLabelQuery(labels map[string]interface{}) string {
+
+	var query strings.Builder
+	var labelArray []string
+
+	for k, v := range labels {
+		newFilter := fmt.Sprintf("meta.labels.%s:%s", k, v)
+		labelArray = append(labelArray, newFilter)
+	}
+
+	for i, label := range labelArray {
+		query.WriteString(label)
+		if i == len(labelArray)-1 {
+			break
+		}
+		query.WriteString(" and ")
+	}
+
+	return query.String()
 }
