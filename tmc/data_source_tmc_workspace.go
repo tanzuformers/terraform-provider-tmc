@@ -27,6 +27,7 @@ func dataSourceTmcWorkspace() *schema.Resource {
 				Computed:    true,
 				Description: "Description of the Tanzu Workspace",
 			},
+			"labels": labelsSchemaComputed(),
 		},
 	}
 }
@@ -43,6 +44,7 @@ func dataSourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, met
 	}
 
 	d.Set("description", workspace.Meta.Description)
+	d.Set("labels", workspace.Meta.Labels)
 	d.SetId(string(workspace.Meta.UID))
 
 	return diags

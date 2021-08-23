@@ -1,15 +1,17 @@
 package tanzuclient
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
 
 type Workspace struct {
 	// The name of the workspace.
-	FullName FullName `json:"fullName"`
+	FullName *FullName `json:"fullName"`
 	// The metadata of the workspace.
-	Meta MetaData `json:"meta"`
+	Meta *MetaData `json:"meta"`
 }
 
 type WorkspaceResponse struct {
@@ -52,4 +54,95 @@ func (c *Client) GetAllWorkspaces() ([]Workspace, error) {
 	}
 
 	return res.Workspaces, nil
+}
+
+func (c *Client) CreateWorkspace(name string, description string, labels map[string]string) (*Workspace, error) {
+	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces", c.baseURL)
+
+	workspace := &Workspace{
+		FullName: &FullName{
+			Name: name,
+		},
+		Meta: &MetaData{
+			Description: description,
+			Labels:      labels,
+		},
+	}
+
+	workspaceResponse := &WorkspaceResponse{
+		Workspace: *workspace,
+	}
+
+	// Create JSON object for the request Body
+	json_data, err := json.Marshal(workspaceResponse) // returns []byte
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", tmcURL, bytes.NewBuffer(json_data))
+	if err != nil {
+		return nil, err
+	}
+
+	res := WorkspaceResponse{}
+
+	if err := c.sendRequest(req, &res); err != nil {
+		return nil, err
+	}
+
+	return &res.Workspace, nil
+}
+
+func (c *Client) DeleteWorkspace(name string) error {
+	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces/%s", c.baseURL, name)
+
+	req, err := http.NewRequest("DELETE", tmcURL, nil)
+	if err != nil {
+		return err
+	}
+
+	res := WorkspaceResponse{}
+
+	if err := c.sendRequest(req, &res); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *Client) UpdateWorkspace(name string, description string, labels map[string]string) (*Workspace, error) {
+	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces/%s", c.baseURL, name)
+
+	workspace := &Workspace{
+		FullName: &FullName{
+			Name: name,
+		},
+		Meta: &MetaData{
+			Description: description,
+			Labels:      labels,
+		},
+	}
+
+	workspaceResponse := &WorkspaceResponse{
+		Workspace: *workspace,
+	}
+
+	// Create JSON object for the request Body
+	json_data, err := json.Marshal(workspaceResponse) // returns []byte
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", tmcURL, bytes.NewBuffer(json_data))
+	if err != nil {
+		return nil, err
+	}
+
+	res := WorkspaceResponse{}
+
+	if err := c.sendRequest(req, &res); err != nil {
+		return nil, err
+	}
+
+	return &res.Workspace, nil
 }
