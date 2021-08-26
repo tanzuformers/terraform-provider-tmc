@@ -1,18 +1,16 @@
-terraform {
-  required_providers {
-    tmc = {
-      source = "coda-global/tanzu/tmc"
-    }
-  }
-}
-
-data "tmc_clustergroups" "name" {
+data "tmc_clustergroups" "test" {
   match_labels = {
     "cloud" = "aws"
-    "test" = "one"
   }  
+}
+data "tmc_clustergroups" "test2" {
+  
 }
 
 output "clustergroup_name" {
-  value = data.tmc_clustergroups.name
+  value = data.tmc_clustergroups.test
+}
+
+output "clustergroup_name" {
+  value = data.tmc_clustergroups.test2
 }
