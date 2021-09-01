@@ -2,6 +2,7 @@ package tmc
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/codaglobal/terraform-provider-tmc/tanzuclient"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -44,7 +45,14 @@ func dataSourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, met
 	}
 
 	d.Set("description", workspace.Meta.Description)
-	d.Set("labels", workspace.Meta.Labels)
+	if err := d.Set("labels", workspace.Meta.Labels); err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Failed to read workspace",
+			Detail:   fmt.Sprintf("Error setting tags for resource %s: %s", d.Get("name"), err),
+		})
+		return diags
+	}
 	d.SetId(string(workspace.Meta.UID))
 
 	return diags

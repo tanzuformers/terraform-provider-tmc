@@ -56,7 +56,7 @@ func (c *Client) GetAllWorkspaces() ([]Workspace, error) {
 	return res.Workspaces, nil
 }
 
-func (c *Client) CreateWorkspace(name string, description string, labels map[string]string) (*Workspace, error) {
+func (c *Client) CreateWorkspace(name string, description string, labels map[string]interface{}) (*Workspace, error) {
 	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces", c.baseURL)
 
 	workspace := &Workspace{
@@ -110,7 +110,7 @@ func (c *Client) DeleteWorkspace(name string) error {
 	return nil
 }
 
-func (c *Client) UpdateWorkspace(name string, description string, labels map[string]string) (*Workspace, error) {
+func (c *Client) UpdateWorkspace(name string, description string, labels map[string]interface{}) (*Workspace, error) {
 	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces/%s", c.baseURL, name)
 
 	workspace := &Workspace{
@@ -133,7 +133,7 @@ func (c *Client) UpdateWorkspace(name string, description string, labels map[str
 		return nil, err
 	}
 
-	req, err := http.NewRequest("PATCH", tmcURL, bytes.NewBuffer(json_data))
+	req, err := http.NewRequest("PUT", tmcURL, bytes.NewBuffer(json_data))
 	if err != nil {
 		return nil, err
 	}

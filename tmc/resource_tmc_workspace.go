@@ -26,13 +26,22 @@ func resourceTmcWorkspace() *schema.Resource {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "Name of the Tanzu Workspace",
+				ForceNew:    true,
 			},
 			"description": {
 				Type:        schema.TypeString,
-				Computed:    true,
+				Optional:    true,
 				Description: "Description of the Tanzu Workspace",
 			},
 			"labels": labelsSchema(),
+			"last_updated": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+		},
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
 		},
 	}
 }
@@ -49,6 +58,14 @@ func resourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 
 	d.Set("description", workspace.Meta.Description)
+	if err := d.Set("labels", workspace.Meta.Labels); err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Failed to perform specified operation",
+			Detail:   fmt.Sprintf("Error setting tags for resource %s: %s", d.Get("name"), err),
+		})
+		return diags
+	}
 	d.SetId(string(workspace.Meta.UID))
 
 	return diags
@@ -57,7 +74,7 @@ func resourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, meta 
 func resourceTmcWorkspaceCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	client := meta.(*tanzuclient.Client)
 
-	workspace, err := client.CreateWorkspace(d.Get("name").(string), d.Get("description").(string), d.Get("labels").(map[string]string))
+	workspace, err := client.CreateWorkspace(d.Get("name").(string), d.Get("description").(string), d.Get("labels").(map[string]interface{}))
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -77,14 +94,14 @@ func resourceTmcWorkspaceUpdate(ctx context.Context, d *schema.ResourceData, met
 
 	if d.HasChange("description") || d.HasChange("labels") {
 		description := d.Get("description").(string)
-		labels := d.Get("labels").(map[string]string)
+		labels := d.Get("labels").(map[string]interface{})
 
 		_, err := client.UpdateWorkspace(workspaceName, description, labels)
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{
 				Severity: diag.Error,
 				Summary:  "Failed to update workspace",
-				Detail:   fmt.Sprintf("Cannot update the workspace %s with the new values", d.Get("name").(string)),
+				Detail:   fmt.Sprintf("Cannot update the workspace %s with the new values: %s", d.Get("name").(string), err),
 			})
 			return diags
 		}
@@ -105,8 +122,8 @@ func resourceTmcWorkspaceDelete(ctx context.Context, d *schema.ResourceData, met
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
-			Summary:  "Failed to deleting workspace",
-			Detail:   fmt.Sprintf("Cannot delete given workspace %s", d.Get("name").(string)),
+			Summary:  "Failed to delete workspace",
+			Detail:   fmt.Sprintf("Cannot delete given workspace %s: %s", d.Get("name").(string), err),
 		})
 		return diags
 	}

@@ -1,9 +1,9 @@
 package tanzuclient
 
 type MetaData struct {
-	UID         string            `json:"uid"`
-	Description string            `json:"description"`
-	Labels      map[string]string `json:"labels,omitempty"`
+	UID         string                 `json:"uid"`
+	Description string                 `json:"description"`
+	Labels      map[string]interface{} `json:"labels,omitempty"`
 }
 
 type FullName struct {
