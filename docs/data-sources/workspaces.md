@@ -20,7 +20,7 @@ data "tmc_workspaces" "example" {
 }
 ```
 
-## Arugment Reference
+## Argument Reference
 
 * `labels` - (Optional) Map of labels to filter only the workspaces that match them.
 

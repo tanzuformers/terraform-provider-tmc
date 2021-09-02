@@ -20,7 +20,7 @@ data "tmc_cluster_groups" "example" {
 }
 ```
 
-## Arugment Reference
+## Argument Reference
 
 * `labels` - (Optional) Map of labels to filter only the cluster groups that match them.
 
