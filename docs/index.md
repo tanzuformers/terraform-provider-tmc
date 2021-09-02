@@ -24,7 +24,7 @@ Terraform 0.15 and later:
 terraform {
   required_providers {
     tmc = {
-      source  = "hashicorp/tmc"
+      source  = "codaglobal/tmc"
       version = "~> 0.1"
     }
   }
