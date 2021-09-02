@@ -1,12 +1,9 @@
-# This GitHub action runs your tests for each commit push and/or PR. Optionally
+# This GitHub action runs your tests for each PR. Optionally
 # you can turn it on using a cron schedule for regular testing.
 #
 name: Tests
 on:
   pull_request:
-    paths-ignore:
-      - 'README.md'
-  push:
     paths-ignore:
       - 'README.md'
   # For systems with an upstream API that could drift unexpectedly (like most SaaS systems, etc.),
@@ -74,11 +71,8 @@ jobs:
       env:
         TF_ACC: "1"
         TF_ACC_TERRAFORM_VERSION: ${{ matrix.terraform }}
-
-        # Set whatever additional acceptance test env vars here. You can
-        # optionally use data from your repository secrets using the
-        # following syntax:
-        # SOME_VAR: ${{ secrets.SOME_VAR }}
+        TMC_ORG_URL: ${{ secrets.TMC_ORG_URL }}
+        TMC_API_TOKEN: ${{ secrets.TMC_API_TOKEN }}
 
       run: |
         go test -v -cover ./internal/provider/
