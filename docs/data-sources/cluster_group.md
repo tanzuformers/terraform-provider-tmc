@@ -24,5 +24,6 @@ data "tmc_cluster_group" "example" {
 
 ## Attributes Reference
 
+* `id` - Unique Identifiers (UID) of the found cluster group in the TMC platform.
 * `description` - Description of the found cluster group.
 * `labels` - A mapping of labels of the resource.

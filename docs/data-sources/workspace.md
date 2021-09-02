@@ -24,5 +24,6 @@ data "tmc_workspace" "example" {
 
 ## Attributes Reference
 
+* `id` - Unique Identifiers (UID) of the found workspace in the TMC platform.
 * `description` - Description of the found workspace.
 * `labels` - A mapping of labels of the resource.
