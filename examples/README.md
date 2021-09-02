@@ -11,4 +11,3 @@ The document generation tool looks for files in the following locations by defau
 * **resources/<full resource name>/resource.tf** example file for the named data source page
 
 In this scenario, we embed example usage for resources directly in the documentation itself and use these examples for purposes of testing.
-

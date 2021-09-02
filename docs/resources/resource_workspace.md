@@ -8,7 +8,7 @@ description: |-
 
 # Resource `tmc_workspace`
 
-The TMC Workspace resource allows requestion the creation of a workspace in Tanzu Mission Control (TMC). It also deals with managing the attributes and lifecycle of the workspace.
+The TMC Workspace resource allows requesting the creation of a workspace in Tanzu Mission Control (TMC). It also deals with managing the attributes and lifecycle of the workspace.
 
 ## Example Usage
 
@@ -28,7 +28,7 @@ resource "tmc_workspace" "example" {
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the Tanzu Workspace.
+* `name` - (Required) The name of the Tanzu Workspace. Changing the name forces recreation of this resource.
 * `description` - (Optional) The description of the Tanzu Workspace.
 * `labels` - (Optional) A map of labels to assign to the resource.
 

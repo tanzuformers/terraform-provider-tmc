@@ -5,10 +5,10 @@ terraform {
 provider "tmc" {
 }
 
-resource "tmc_clustergroups" "example" {
+resource "tmc_cluster_groups" "example" {
   name = "foo"
 
-  description = "Terraform provider acceptance testing clustergroup"
+  description = "Terraform provider acceptance testing cluster group"
 
   labels = {
     env = "test"
@@ -18,8 +18,8 @@ resource "tmc_clustergroups" "example" {
   }
 }
 
-data "tmc_clustergroup" "example" {
-  name = tmc_clustergroup.example.name
+data "tmc_cluster_group" "example" {
+  name = tmc_cluster_group.example.name
 }
 
-data "tmc_clustergroups" "all" {}
+data "tmc_cluster_groups" "all" {}
