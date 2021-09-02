@@ -22,6 +22,7 @@ data "tmc_workspace" "example" {
 
 * `name` - (Required) The name of the workspace to lookup in the TMC platform. If no workspace is found with this name, an error will be returned.
 
+
 ## Attributes Reference
 
 * `description` - Description of the found workspace.

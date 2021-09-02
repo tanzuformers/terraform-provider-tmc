@@ -29,18 +29,20 @@ func dataSourceTmcWorkspacesRead(ctx context.Context, d *schema.ResourceData, me
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	res, err := client.GetAllWorkspaces()
+	labels := d.Get("labels").(map[string]interface{})
+
+	res, err := client.GetAllWorkspaces(labels)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	workspaces := make([]interface{}, len(res))
+	workspaceNames := make([]interface{}, len(res))
 
 	for i, workspace := range res {
-		workspaces[i] = workspace.FullName.Name
+		workspaceNames[i] = workspace.FullName.Name
 	}
 
-	if err := d.Set("names", workspaces); err != nil {
+	if err := d.Set("names", workspaceNames); err != nil {
 		return diag.FromErr(err)
 	}
 

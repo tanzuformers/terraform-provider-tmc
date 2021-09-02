@@ -49,7 +49,7 @@ func dataSourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, met
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Failed to read workspace",
-			Detail:   fmt.Sprintf("Error setting tags for resource %s: %s", d.Get("name"), err),
+			Detail:   fmt.Sprintf("Error setting labels for resource %s: %s", d.Get("name"), err),
 		})
 		return diags
 	}

@@ -1,4 +1,6 @@
-default: testacc
+default: install
+
+install: 
 
 # Run acceptance tests
 .PHONY: testacc

@@ -1,3 +1,14 @@
+package tmc
+
+import (
+	"context"
+	"os"
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+)
+
 const (
 	// Provider name for single configuration testing
 	ProviderNameAws = "tmc"

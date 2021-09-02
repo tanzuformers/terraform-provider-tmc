@@ -39,7 +39,7 @@ func (c *Client) GetWorkspace(name string) (*Workspace, error) {
 	return &res.Workspace, nil
 }
 
-func (c *Client) GetAllWorkspaces() ([]Workspace, error) {
+func (c *Client) GetAllWorkspaces(labels map[string]interface{}) ([]Workspace, error) {
 	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces", c.baseURL)
 
 	req, err := http.NewRequest("GET", tmcURL, nil)
