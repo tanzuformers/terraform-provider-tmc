@@ -6,7 +6,7 @@ description: |-
   Get information on a specific Tanzu Mission Control (TMC) Workspace
 ---
 
-# Data Source `tmc_workspace`
+# Data Source: tmc_workspace
 
 Use this data source to get the details about a workspace in TMC platform.
 

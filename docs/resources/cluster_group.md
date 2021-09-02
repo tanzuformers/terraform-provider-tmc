@@ -6,7 +6,7 @@ description: |-
   Creates and manages a Cluster Group in the TMC platform
 ---
 
-# Resource `tmc_cluster_group`
+# Resource: tmc_cluster_group
 
 The TMC Cluster Group resource allows requesting the creation of a cluster group in Tanzu Mission Control (TMC). It also deals with managing the attributes and lifecycle of the cluster group.
 

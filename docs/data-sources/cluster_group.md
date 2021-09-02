@@ -6,7 +6,7 @@ description: |-
   Get information on a list of Tanzu Mission Control (TMC) Cluster Group.
 ---
 
-# Data Source `tmc_cluster_group`
+# Data Source: tmc_cluster_group
 
 Use this data source to get the details about a cluster group in TMC platform.
 

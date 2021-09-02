@@ -6,7 +6,7 @@ description: |-
   Creates and manages a workspace in the TMC platform
 ---
 
-# Resource `tmc_workspace`
+# Resource: tmc_workspace
 
 The TMC Workspace resource allows requesting the creation of a workspace in Tanzu Mission Control (TMC). It also deals with managing the attributes and lifecycle of the workspace.
 
