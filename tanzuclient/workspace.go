@@ -40,7 +40,9 @@ func (c *Client) GetWorkspace(name string) (*Workspace, error) {
 }
 
 func (c *Client) GetAllWorkspaces(labels map[string]interface{}) ([]Workspace, error) {
-	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces", c.baseURL)
+	queryString := buildLabelQuery(labels)
+
+	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces?query=%s", c.baseURL, queryString)
 
 	req, err := http.NewRequest("GET", tmcURL, nil)
 	if err != nil {

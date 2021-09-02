@@ -13,11 +13,7 @@ func dataSourceClusterGroups() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceClusterGroupsRead,
 		Schema: map[string]*schema.Schema{
-			"labels": {
-				Type:        schema.TypeMap,
-				Optional:    true,
-				Description: "Set of labels to filter the cluster groups",
-			},
+			"labels": labelsSchema(),
 			"ids": {
 				Type:        schema.TypeList,
 				Computed:    true,

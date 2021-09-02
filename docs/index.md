@@ -7,7 +7,7 @@ description: |-
 
 ---
 
-# tmc Provider
+# tmc provider
 
 Use the Tanzu Mission Control (TMC) provider to interact with the many resources supported by TMC. You must configure the provider with the proper credentials before you can use it.
 

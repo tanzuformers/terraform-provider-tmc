@@ -19,17 +19,13 @@ func dataSourceTmcWorkspaces() *schema.Resource {
 				Description: "Names of the All Tanzu Workspaces",
 				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
-			"labels": {
-				Type:        schema.TypeMap,
-				Optional:    true,
-				Description: "Set of labels to filter the workspaces",
-			},
 			"ids": {
 				Type:        schema.TypeList,
 				Computed:    true,
 				Description: "UID of the All Tanzu Workspaces",
 				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
+			"labels": labelsSchema(),
 		},
 	}
 }
@@ -48,12 +44,17 @@ func dataSourceTmcWorkspacesRead(ctx context.Context, d *schema.ResourceData, me
 	}
 
 	workspaceNames := make([]interface{}, len(res))
+	workspaceIds := make([]interface{}, len(res))
 
 	for i, workspace := range res {
 		workspaceNames[i] = workspace.FullName.Name
+		workspaceIds[i] = workspace.Meta.UID
 	}
 
 	if err := d.Set("names", workspaceNames); err != nil {
+		return diag.FromErr(err)
+	}
+	if err := d.Set("ids", workspaceIds); err != nil {
 		return diag.FromErr(err)
 	}
 
