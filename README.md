@@ -15,7 +15,7 @@ The Terraform TMC provider is a plugin for Terraform that allows for the full li
 
 Full documentation is available on the Terraform website:
 
-https://terraform.io/docs/providers/tmc/index.html
+https://registry.terraform.io/providers/codaglobal/tmc/latest/docs
 
 ## Requirements
 
