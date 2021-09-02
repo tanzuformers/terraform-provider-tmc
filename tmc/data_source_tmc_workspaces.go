@@ -19,6 +19,17 @@ func dataSourceTmcWorkspaces() *schema.Resource {
 				Description: "Names of the All Tanzu Workspaces",
 				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
+			"labels": {
+				Type:        schema.TypeMap,
+				Optional:    true,
+				Description: "Set of labels to filter the workspaces",
+			},
+			"ids": {
+				Type:        schema.TypeList,
+				Computed:    true,
+				Description: "UID of the All Tanzu Workspaces",
+				Elem:        &schema.Schema{Type: schema.TypeString},
+			},
 		},
 	}
 }
