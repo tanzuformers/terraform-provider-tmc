@@ -9,51 +9,50 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func dataSourceTmcWorkspace() *schema.Resource {
+func dataSourceTmcProvisioner() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: dataSourceTmcWorkspaceRead,
+		ReadContext: dataSourceTmcProvisionerRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:        schema.TypeString,
 				Computed:    true,
-				Description: "Unique ID of the Tanzu Workspace",
+				Description: "Unique ID of the Tanzu Provisioner",
 			},
 			"name": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "Name of the Tanzu Workspace",
+				Description: "Name of the Tanzu Provisioner",
 			},
-			"description": {
+			"management_cluster_name": {
 				Type:        schema.TypeString,
-				Computed:    true,
-				Description: "Description of the Tanzu Workspace",
+				Required:    true,
+				Description: "Name of the Management Cluster which contains the Tanzu Provisioner",
 			},
 			"labels": labelsSchemaComputed(),
 		},
 	}
 }
 
-func dataSourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func dataSourceTmcProvisionerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	client := meta.(*tanzuclient.Client)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	workspace, err := client.GetWorkspace(d.Get("name").(string))
+	provisioner, err := client.GetProvisioner(d.Get("management_cluster_name").(string), d.Get("name").(string))
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	d.Set("description", workspace.Meta.Description)
-	if err := d.Set("labels", workspace.Meta.SimpleMetaData.Labels); err != nil {
+	if err := d.Set("labels", provisioner.Meta.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
-			Summary:  "Failed to read workspace",
+			Summary:  "Failed to read provisioner",
 			Detail:   fmt.Sprintf("Error setting labels for resource %s: %s", d.Get("name"), err),
 		})
 		return diags
 	}
-	d.SetId(string(workspace.Meta.SimpleMetaData.UID))
+	d.SetId(string(provisioner.Meta.UID))
 
 	return diags
 }

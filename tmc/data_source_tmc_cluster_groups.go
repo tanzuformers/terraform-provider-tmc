@@ -47,7 +47,7 @@ func dataSourceClusterGroupsRead(ctx context.Context, d *schema.ResourceData, me
 
 	for i, clusterGroup := range *res {
 		clusterGroupNames[i] = clusterGroup.FullName.Name
-		clusterGroupIds[i] = clusterGroup.Meta.UID
+		clusterGroupIds[i] = clusterGroup.Meta.SimpleMetaData.UID
 	}
 
 	if err := d.Set("names", clusterGroupNames); err != nil {
