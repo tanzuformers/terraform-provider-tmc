@@ -11,7 +11,7 @@ type SimpleMetaData struct {
 }
 
 type MetaData struct {
-	SimpleMetaData *SimpleMetaData
+	SimpleMetaData SimpleMetaData
 	Description    string `json:"description"`
 }
 
@@ -21,7 +21,7 @@ type SimpleFullName struct {
 }
 
 type FullName struct {
-	SimpleFullName        *SimpleFullName
+	SimpleFullName        SimpleFullName
 	ManagementClusterName string `json:"managementClusterName"`
 }
 

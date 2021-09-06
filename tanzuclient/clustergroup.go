@@ -53,7 +53,7 @@ func (c *Client) CreateClusterGroup(name string, description string, labels map[
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: &SimpleMetaData{
+			SimpleMetaData: SimpleMetaData{
 				Labels: labels,
 			},
 		},
@@ -114,7 +114,7 @@ func (c *Client) UpdateClusterGroup(name string, description string, labels map[
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: &SimpleMetaData{
+			SimpleMetaData: SimpleMetaData{
 				Labels: labels,
 			},
 		},

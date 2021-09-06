@@ -63,7 +63,7 @@ func (c *Client) CreateProvisioner(mgmtClusterName string, name string, descript
 
 	provisioner := &Provisioner{
 		FullName: &FullName{
-			SimpleFullName: &SimpleFullName{
+			SimpleFullName: SimpleFullName{
 				Name: name,
 			},
 			ManagementClusterName: mgmtClusterName,

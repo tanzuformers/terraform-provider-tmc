@@ -67,7 +67,7 @@ func (c *Client) CreateWorkspace(name string, description string, labels map[str
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: &SimpleMetaData{
+			SimpleMetaData: SimpleMetaData{
 				Labels: labels,
 			},
 		},
@@ -122,7 +122,7 @@ func (c *Client) UpdateWorkspace(name string, description string, labels map[str
 			Name: name,
 		},
 		Meta: &MetaData{
-			SimpleMetaData: &SimpleMetaData{
+			SimpleMetaData: SimpleMetaData{
 				Labels: labels,
 			},
 			Description: description,
