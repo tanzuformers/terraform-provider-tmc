@@ -38,12 +38,14 @@ func Provider() *schema.Provider {
 			"tmc_workspaces":     dataSourceTmcWorkspaces(),
 			"tmc_cluster_group":  dataSourceClusterGroup(),
 			"tmc_cluster_groups": dataSourceClusterGroups(),
+			"tmc_cluster":        dataSourceCluster(),
 		},
 
 		// List of Resources supported by the provider
 		ResourcesMap: map[string]*schema.Resource{
 			"tmc_workspace":     resourceTmcWorkspace(),
 			"tmc_cluster_group": resourceClusterGroup(),
+			"tmc_cluster":       resourceTmcCluster(),
 		},
 	}
 

@@ -14,6 +14,8 @@ type MetaData struct {
 type FullName struct {
 	OrgID                 string `json:"orgId"`
 	Name                  string `json:"name"`
+	ManagementClusterName string `json:"managementClusterName,omitempty"`
+	ProvisionerName       string `json:"provisionerName,omitempty"`
 }
 
 type errorResponse struct {
