@@ -12,8 +12,8 @@ type MetaData struct {
 }
 
 type FullName struct {
-	OrgID string `json:"orgId"`
-	Name  string `json:"name"`
+	OrgID                 string `json:"orgId"`
+	Name                  string `json:"name"`
 }
 
 type errorResponse struct {

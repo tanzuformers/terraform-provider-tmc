@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/codaglobal/terraform-provider-tmc/tanzuclient"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/tanzuformers/terraform-provider-tmc/tanzuclient"
 )
 
 func resourceClusterGroup() *schema.Resource {
