@@ -29,8 +29,8 @@ func resourceTmcCluster() *schema.Resource {
 			"description": {
 				Type:        schema.TypeString,
 				Required:    false,
-				Optional: true,
-				Default:	 "",
+				Optional:    true,
+				Default:     "",
 				Description: "Description of the Cluster",
 			},
 			"management_cluster": {
@@ -45,13 +45,13 @@ func resourceTmcCluster() *schema.Resource {
 			},
 			"cluster_group_name": {
 				Type:        schema.TypeString,
-				Optional: true,
+				Optional:    true,
 				Default:     "default",
 				Description: "Name of the cluster group",
 			},
 			"installer_link": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:        schema.TypeString,
+				Computed:    true,
 				Description: "The link to install the agent",
 			},
 			"labels": labelsSchema(),
@@ -135,7 +135,7 @@ func resourceTmcClusterRead(ctx context.Context, d *schema.ResourceData, meta in
 	d.Set("cluster_group_name", cluster.Spec.ClusterGroupName)
 	d.Set("installer_link", cluster.Status.InstallerLink)
 
-	if err := d.Set("labels", cluster.Meta.Labels); err != nil {
+	if err := d.Set("labels", cluster.Meta.SimpleMetaData.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Failed to read clustergroup",
@@ -158,7 +158,7 @@ func resourceTmcClusterRead(ctx context.Context, d *schema.ResourceData, meta in
 		})
 		return diags
 	}
-	d.SetId(string(cluster.Meta.UID))
+	d.SetId(string(cluster.Meta.SimpleMetaData.UID))
 
 	return diags
 }
@@ -178,7 +178,7 @@ func resourceTmcClusterCreate(ctx context.Context, d *schema.ResourceData, meta 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(string(cluster.Meta.UID))
+	d.SetId(string(cluster.Meta.SimpleMetaData.UID))
 
 	return resourceTmcClusterRead(ctx, d, meta)
 }

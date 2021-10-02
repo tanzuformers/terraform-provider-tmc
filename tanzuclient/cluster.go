@@ -53,10 +53,10 @@ type ClusterStatus struct {
 }
 
 type Cluster struct {
-	FullName *FullName      `json:"fullName"`
-	Meta     *MetaData      `json:"meta"`
-	Spec     *ClusterSpec   `json:"spec"`
-	Status   *ClusterStatus `json:"status"`
+	FullNameProvisioned *FullNameProvisioned `json:"fullName"`
+	Meta                *MetaData            `json:"meta"`
+	Spec                *ClusterSpec         `json:"spec"`
+	Status              *ClusterStatus       `json:"status"`
 }
 
 type ClusterJSONObject struct {
@@ -84,14 +84,20 @@ func (c *Client) CreateCluster(name string, description string, managementCluste
 	requestURL := c.baseURL + "/v1alpha1/clusters"
 
 	newCluster := &Cluster{
-		FullName: &FullName{
-			Name:                  name,
-			ManagementClusterName: managementCluster,
-			ProvisionerName:       provisionerName,
+		FullNameProvisioned: &FullNameProvisioned{
+			FullName: FullName{
+				SimpleFullName: SimpleFullName{
+					Name: name,
+				},
+				ManagementClusterName: managementCluster,
+			},
+			ProvisionerName: provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
-			Labels:      labels,
+			SimpleMetaData: SimpleMetaData{
+				Labels: labels,
+			},
 		},
 		Spec: &ClusterSpec{
 			ClusterGroupName: clusterGroupName,
@@ -126,14 +132,20 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", name)
 
 	newCluster := &Cluster{
-		FullName: &FullName{
-			Name:                  name,
-			ManagementClusterName: managementCluster,
-			ProvisionerName:       provisionerName,
+		FullNameProvisioned: &FullNameProvisioned{
+			FullName: FullName{
+				SimpleFullName: SimpleFullName{
+					Name: name,
+				},
+				ManagementClusterName: managementCluster,
+			},
+			ProvisionerName: provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
-			Labels:      labels,
+			SimpleMetaData: SimpleMetaData{
+				Labels: labels,
+			},
 		},
 		Spec: &ClusterSpec{
 			ClusterGroupName: clusterGroupName,

@@ -48,7 +48,7 @@ func dataSourceTmcWorkspacesRead(ctx context.Context, d *schema.ResourceData, me
 
 	for i, workspace := range res {
 		workspaceNames[i] = workspace.FullName.Name
-		workspaceIds[i] = workspace.Meta.UID
+		workspaceIds[i] = workspace.Meta.SimpleMetaData.UID
 	}
 
 	if err := d.Set("names", workspaceNames); err != nil {

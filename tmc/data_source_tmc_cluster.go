@@ -40,7 +40,7 @@ func dataSourceCluster() *schema.Resource {
 			},
 			"cluster_group_name": {
 				Type:        schema.TypeString,
-				Computed: true,
+				Computed:    true,
 				Description: "Name of the cluster group",
 			},
 			"installer_link": {
@@ -129,7 +129,7 @@ func dataSourceClusterRead(ctx context.Context, d *schema.ResourceData, meta int
 	d.Set("cluster_group_name", cluster.Spec.ClusterGroupName)
 	d.Set("installer_link", cluster.Status.InstallerLink)
 
-	if err := d.Set("labels", cluster.Meta.Labels); err != nil {
+	if err := d.Set("labels", cluster.Meta.SimpleMetaData.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Failed to read clustergroup",
@@ -152,7 +152,7 @@ func dataSourceClusterRead(ctx context.Context, d *schema.ResourceData, meta int
 		})
 		return diags
 	}
-	d.SetId(string(cluster.Meta.UID))
+	d.SetId(string(cluster.Meta.SimpleMetaData.UID))
 
 	return diags
 }
