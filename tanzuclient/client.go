@@ -25,6 +25,11 @@ type AccessToken struct {
 
 func NewClient(url, apiToken *string) (*Client, error) {
 	var token *AccessToken
+
+	if (url == nil) || (apiToken == nil) {
+		return nil, errors.New("credentials not set!! please ensure the provider credentials are configured properly")
+	}
+
 	// Use apitoken (previously known as refresh token) to generate an access token.
 	// Usually the access token is valid for a little less than 30minutes.
 	loginURL := "https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize?refresh_token=" + *apiToken
