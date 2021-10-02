@@ -81,7 +81,7 @@ func (c *Client) GetCluster(fullName string, managementClusterName string, provi
 }
 
 func (c *Client) CreateCluster(name string, description string, managementCluster string, provisionerName string, clusterGroupName string, labels map[string]interface{}) (*Cluster, error) {
-	requestURL := c.baseURL + "/v1alpha1/clusters"
+	requestURL := fmt.Sprintf("%s/v1alpha1/clusters", c.baseURL)
 
 	newCluster := &Cluster{
 		FullNameProvisioned: &FullNameProvisioned{
@@ -129,7 +129,7 @@ func (c *Client) CreateCluster(name string, description string, managementCluste
 }
 
 func (c *Client) UpdateCluster(name string, description string, managementCluster string, provisionerName string, clusterGroupName string, labels map[string]interface{}) (*Cluster, error) {
-	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", name)
+	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", c.baseURL, name)
 
 	newCluster := &Cluster{
 		FullNameProvisioned: &FullNameProvisioned{
@@ -177,7 +177,7 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 }
 
 func (c *Client) DeleteCluster(name string) error {
-	requestURL := c.baseURL + "/v1alpha1/cluster/" + name
+	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", c.baseURL, name)
 
 	req, err := http.NewRequest("DELETE", requestURL, nil)
 	if err != nil {
