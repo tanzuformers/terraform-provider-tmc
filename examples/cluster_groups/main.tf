@@ -11,10 +11,10 @@ resource "tmc_cluster_groups" "example" {
   description = "Terraform provider acceptance testing cluster group"
 
   labels = {
-    env = "test"
+    env       = "test"
     createdby = "Terraform"
-    purpose = "Acceptance testing for Terraform tmc provider"
-    repo_url = "https://github.com/codaglobal/terraform-provider-tmc"
+    purpose   = "Acceptance testing for Terraform tmc provider"
+    repo_url  = "https://github.com/tanzuformers/terraform-provider-tmc"
   }
 }
 

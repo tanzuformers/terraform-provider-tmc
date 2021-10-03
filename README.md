@@ -1,5 +1,5 @@
-<a href="https://terraform.io">
-    <img src="https://cdn.rawgit.com/hashicorp/terraform-website/master/content/source/assets/images/logo-hashicorp.svg" alt="Terraform logo" title="Terraform" align="right" height="50" />
+<a href="https://tanzu.vmware.com/mission-control">
+    <img src="https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/images/GUID-8546DDD9-718A-42F7-9EDB-0BCC3A316BB6-low.png" alt="Tanzu logo" title="Tanzu" align="right" height="50" />
 </a>
 
 # Terraform Provider for Tanzu Mission Control
@@ -15,7 +15,7 @@ The Terraform TMC provider is a plugin for Terraform that allows for the full li
 
 Full documentation is available on the Terraform website:
 
-https://registry.terraform.io/providers/codaglobal/tmc/latest/docs
+https://registry.terraform.io/providers/tanzuformers/tmc/latest/docs
 
 ## Requirements
 

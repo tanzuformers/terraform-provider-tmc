@@ -3,9 +3,9 @@ package tmc
 import (
 	"context"
 
-	"github.com/codaglobal/terraform-provider-tmc/tanzuclient"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/tanzuformers/terraform-provider-tmc/tanzuclient"
 )
 
 // Provider returns a *schema.Provider.
@@ -15,19 +15,16 @@ func Provider() *schema.Provider {
 	provider := &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"api_token": {
-				Type:     schema.TypeString,
-				Optional: true,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{
-					"TMC_API_TOKEN",
-				}, nil),
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("TMC_API_TOKEN", nil),
+				Sensitive:   true,
 				Description: descriptions["api_token"],
 			},
 			"org_url": {
-				Type:     schema.TypeString,
-				Optional: true,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{
-					"TMC_ORG_URL",
-				}, nil),
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("TMC_ORG_URL", nil),
 				Description: descriptions["org_url"],
 			},
 		},
@@ -38,12 +35,16 @@ func Provider() *schema.Provider {
 			"tmc_workspaces":     dataSourceTmcWorkspaces(),
 			"tmc_cluster_group":  dataSourceClusterGroup(),
 			"tmc_cluster_groups": dataSourceClusterGroups(),
+			"tmc_cluster":        dataSourceCluster(),
+			"tmc_provisioners":   dataSourceTmcProvisioners(),
+			"tmc_provisioner":    dataSourceTmcProvisioner(),
 		},
 
 		// List of Resources supported by the provider
 		ResourcesMap: map[string]*schema.Resource{
 			"tmc_workspace":     resourceTmcWorkspace(),
 			"tmc_cluster_group": resourceClusterGroup(),
+			"tmc_cluster":       resourceTmcCluster(),
 		},
 	}
 

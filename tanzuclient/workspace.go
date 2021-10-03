@@ -120,8 +120,8 @@ func (c *Client) UpdateWorkspace(name string, description string, labels map[str
 			Name: name,
 		},
 		Meta: &MetaData{
-			Description: description,
 			Labels:      labels,
+			Description: description,
 		},
 	}
 

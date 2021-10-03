@@ -7,13 +7,15 @@ import (
 
 type MetaData struct {
 	UID         string                 `json:"uid"`
-	Description string                 `json:"description"`
 	Labels      map[string]interface{} `json:"labels,omitempty"`
+	Description string                 `json:"description"`
 }
 
 type FullName struct {
-	OrgID string `json:"orgId"`
-	Name  string `json:"name"`
+	OrgID                 string `json:"orgId"`
+	Name                  string `json:"name"`
+	ManagementClusterName string `json:"managementClusterName,omitempty"`
+	ProvisionerName       string `json:"provisionerName,omitempty"`
 }
 
 type errorResponse struct {
