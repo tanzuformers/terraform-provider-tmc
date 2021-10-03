@@ -9,7 +9,7 @@ import (
 
 type Workspace struct {
 	// The name of the workspace.
-	FullName *SimpleFullName `json:"fullName"`
+	FullName *FullName `json:"fullName"`
 	// The metadata of the workspace.
 	Meta *MetaData `json:"meta"`
 }
@@ -62,14 +62,12 @@ func (c *Client) CreateWorkspace(name string, description string, labels map[str
 	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces", c.baseURL)
 
 	workspace := &Workspace{
-		FullName: &SimpleFullName{
+		FullName: &FullName{
 			Name: name,
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 		},
 	}
 
@@ -118,13 +116,11 @@ func (c *Client) UpdateWorkspace(name string, description string, labels map[str
 	tmcURL := fmt.Sprintf("%s/v1alpha1/workspaces/%s", c.baseURL, name)
 
 	workspace := &Workspace{
-		FullName: &SimpleFullName{
+		FullName: &FullName{
 			Name: name,
 		},
 		Meta: &MetaData{
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 			Description: description,
 		},
 	}

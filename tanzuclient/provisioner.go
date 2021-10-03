@@ -11,7 +11,7 @@ type Provisioner struct {
 	// The name of the provisioner.
 	FullName *FullName `json:"fullName"`
 	// The metadata of the provisioner.
-	Meta *SimpleMetaData `json:"meta"`
+	Meta *MetaData `json:"meta"`
 }
 
 type ProvisionerResponse struct {
@@ -63,12 +63,10 @@ func (c *Client) CreateProvisioner(mgmtClusterName string, name string, descript
 
 	provisioner := &Provisioner{
 		FullName: &FullName{
-			SimpleFullName: SimpleFullName{
-				Name: name,
-			},
+			Name:                  name,
 			ManagementClusterName: mgmtClusterName,
 		},
-		Meta: &SimpleMetaData{
+		Meta: &MetaData{
 			Labels: labels,
 		},
 	}

@@ -54,10 +54,10 @@ type ClusterStatus struct {
 }
 
 type Cluster struct {
-	FullNameProvisioned *FullNameProvisioned `json:"fullName"`
-	Meta                *MetaData            `json:"meta"`
-	Spec                *ClusterSpec         `json:"spec"`
-	Status              *ClusterStatus       `json:"status"`
+	FullName *FullName      `json:"fullName"`
+	Meta     *MetaData      `json:"meta"`
+	Spec     *ClusterSpec   `json:"spec"`
+	Status   *ClusterStatus `json:"status"`
 }
 
 type ClusterJSONObject struct {
@@ -85,20 +85,14 @@ func (c *Client) CreateCluster(name string, description string, managementCluste
 	requestURL := fmt.Sprintf("%s/v1alpha1/clusters", c.baseURL)
 
 	newCluster := &Cluster{
-		FullNameProvisioned: &FullNameProvisioned{
-			FullName: FullName{
-				SimpleFullName: SimpleFullName{
-					Name: name,
-				},
-				ManagementClusterName: managementCluster,
-			},
-			ProvisionerName: provisionerName,
+		FullName: &FullName{
+			Name:                  name,
+			ManagementClusterName: managementCluster,
+			ProvisionerName:       provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 		},
 		Spec: &ClusterSpec{
 			ClusterGroupName: clusterGroupName,
@@ -135,20 +129,14 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", c.baseURL, name)
 
 	newCluster := &Cluster{
-		FullNameProvisioned: &FullNameProvisioned{
-			FullName: FullName{
-				SimpleFullName: SimpleFullName{
-					Name: name,
-				},
-				ManagementClusterName: managementCluster,
-			},
-			ProvisionerName: provisionerName,
+		FullName: &FullName{
+			Name:                  name,
+			ManagementClusterName: managementCluster,
+			ProvisionerName:       provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 		},
 		Spec: &ClusterSpec{
 			ClusterGroupName: clusterGroupName,
@@ -164,6 +152,8 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("DEBUG: %s", string(json_data))
 
 	req, err := http.NewRequest("PUT", requestURL, bytes.NewBuffer(json_data))
 	if err != nil {

@@ -5,29 +5,17 @@ import (
 	"strings"
 )
 
-type SimpleMetaData struct {
-	UID    string                 `json:"uid"`
-	Labels map[string]interface{} `json:"labels,omitempty"`
-}
-
 type MetaData struct {
-	SimpleMetaData SimpleMetaData
-	Description    string `json:"description"`
-}
-
-type SimpleFullName struct {
-	OrgID string `json:"orgId"`
-	Name  string `json:"name"`
+	UID         string                 `json:"uid"`
+	Labels      map[string]interface{} `json:"labels,omitempty"`
+	Description string                 `json:"description"`
 }
 
 type FullName struct {
-	SimpleFullName        SimpleFullName
-	ManagementClusterName string `json:"managementClusterName"`
-}
-
-type FullNameProvisioned struct {
-	FullName        FullName
-	ProvisionerName string `json:"provisionerName,omitempty"`
+	OrgID                 string `json:"orgId"`
+	Name                  string `json:"name"`
+	ManagementClusterName string `json:"managementClusterName,omitempty"`
+	ProvisionerName       string `json:"provisionerName,omitempty"`
 }
 
 type errorResponse struct {

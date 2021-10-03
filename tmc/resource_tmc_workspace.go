@@ -55,7 +55,7 @@ func resourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, meta 
 	}
 
 	d.Set("description", workspace.Meta.Description)
-	if err := d.Set("labels", workspace.Meta.SimpleMetaData.Labels); err != nil {
+	if err := d.Set("labels", workspace.Meta.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Failed to perform specified operation",
@@ -63,7 +63,7 @@ func resourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, meta 
 		})
 		return diags
 	}
-	d.SetId(string(workspace.Meta.SimpleMetaData.UID))
+	d.SetId(string(workspace.Meta.UID))
 
 	return diags
 }
@@ -76,7 +76,7 @@ func resourceTmcWorkspaceCreate(ctx context.Context, d *schema.ResourceData, met
 		return diag.FromErr(err)
 	}
 
-	d.SetId(string(workspace.Meta.SimpleMetaData.UID))
+	d.SetId(string(workspace.Meta.UID))
 
 	return resourceTmcWorkspaceRead(ctx, d, meta)
 }
