@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -44,8 +45,8 @@ type AWSCluster struct {
 }
 
 type ClusterSpec struct {
-	ClusterGroupName string     `json:"clusterGroupName"`
-	TkgAws           AWSCluster `json:"tkgAws,omitempty"`
+	ClusterGroupName string `json:"clusterGroupName"`
+	// TkgAws           AWSCluster `json:"tkgAws,omitempty"`
 }
 
 type ClusterStatus struct {
@@ -113,6 +114,8 @@ func (c *Client) CreateCluster(name string, description string, managementCluste
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("DEBUG: %s", string(json_data))
 
 	req, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(json_data))
 	if err != nil {
