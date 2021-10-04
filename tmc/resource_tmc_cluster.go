@@ -218,7 +218,7 @@ func resourceTmcClusterDelete(ctx context.Context, d *schema.ResourceData, meta 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	err := client.DeleteCluster(d.Get("name").(string))
+	err := client.DeleteCluster(d.Get("name").(string), d.Get("management_cluster").(string), d.Get("provisioner_name").(string))
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
