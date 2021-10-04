@@ -169,8 +169,8 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	return &res.Cluster, nil
 }
 
-func (c *Client) DeleteCluster(name string) error {
-	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", c.baseURL, name)
+func (c *Client) DeleteCluster(name string, managementCluster string, provisionerName string) error {
+	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s?fullName.managementClusterName=%s&fullName.provisionerName=%s", c.baseURL, name, managementCluster, provisionerName)
 
 	req, err := http.NewRequest("DELETE", requestURL, nil)
 	if err != nil {
