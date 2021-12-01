@@ -55,7 +55,7 @@ func dataSourceTmcProvisionersRead(ctx context.Context, d *schema.ResourceData, 
 	provisionerIds := make([]interface{}, len(res))
 
 	for i, provisioner := range res {
-		provisionerNames[i] = provisioner.FullName.SimpleFullName.Name
+		provisionerNames[i] = provisioner.FullName.Name
 		provisionerIds[i] = provisioner.Meta.UID
 	}
 

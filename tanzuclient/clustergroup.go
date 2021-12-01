@@ -9,7 +9,7 @@ import (
 
 type ClusterGroup struct {
 	// Name of the Cluster Group
-	FullName *SimpleFullName `json:"fullName"`
+	FullName *FullName `json:"fullName"`
 	// Metadata about the Cluster Group
 	Meta *MetaData `json:"meta"`
 }
@@ -48,14 +48,12 @@ func (c *Client) CreateClusterGroup(name string, description string, labels map[
 	requestURL := c.baseURL + "/v1alpha1/clustergroups"
 
 	newClusterGroup := &ClusterGroup{
-		FullName: &SimpleFullName{
+		FullName: &FullName{
 			Name: name,
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 		},
 	}
 
@@ -109,14 +107,12 @@ func (c *Client) UpdateClusterGroup(name string, description string, labels map[
 	requestURL := c.baseURL + "/v1alpha1/clustergroups/" + name
 
 	newClusterGroup := &ClusterGroup{
-		FullName: &SimpleFullName{
+		FullName: &FullName{
 			Name: name,
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 		},
 	}
 

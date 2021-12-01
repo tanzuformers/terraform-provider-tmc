@@ -45,7 +45,7 @@ func dataSourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, met
 	}
 
 	d.Set("description", workspace.Meta.Description)
-	if err := d.Set("labels", workspace.Meta.SimpleMetaData.Labels); err != nil {
+	if err := d.Set("labels", workspace.Meta.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Failed to read workspace",
@@ -53,7 +53,7 @@ func dataSourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, met
 		})
 		return diags
 	}
-	d.SetId(string(workspace.Meta.SimpleMetaData.UID))
+	d.SetId(string(workspace.Meta.UID))
 
 	return diags
 }

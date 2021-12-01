@@ -53,10 +53,10 @@ type ClusterStatus struct {
 }
 
 type Cluster struct {
-	FullNameProvisioned *FullNameProvisioned `json:"fullName"`
-	Meta                *MetaData            `json:"meta"`
-	Spec                *ClusterSpec         `json:"spec"`
-	Status              *ClusterStatus       `json:"status"`
+	FullName *FullNameProvisioned `json:"fullName"`
+	Meta     *MetaData            `json:"meta"`
+	Spec     *ClusterSpec         `json:"spec"`
+	Status   *ClusterStatus       `json:"status"`
 }
 
 type ClusterJSONObject struct {
@@ -84,20 +84,16 @@ func (c *Client) CreateCluster(name string, description string, managementCluste
 	requestURL := fmt.Sprintf("%s/v1alpha1/clusters", c.baseURL)
 
 	newCluster := &Cluster{
-		FullNameProvisioned: &FullNameProvisioned{
+		FullName: &FullNameProvisioned{
 			FullName: FullName{
-				SimpleFullName: SimpleFullName{
-					Name: name,
-				},
+				Name:                  name,
 				ManagementClusterName: managementCluster,
 			},
 			ProvisionerName: provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 		},
 		Spec: &ClusterSpec{
 			ClusterGroupName: clusterGroupName,
@@ -132,20 +128,16 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", c.baseURL, name)
 
 	newCluster := &Cluster{
-		FullNameProvisioned: &FullNameProvisioned{
+		FullName: &FullNameProvisioned{
 			FullName: FullName{
-				SimpleFullName: SimpleFullName{
-					Name: name,
-				},
+				Name:                  name,
 				ManagementClusterName: managementCluster,
 			},
 			ProvisionerName: provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
-			SimpleMetaData: SimpleMetaData{
-				Labels: labels,
-			},
+			Labels:      labels,
 		},
 		Spec: &ClusterSpec{
 			ClusterGroupName: clusterGroupName,
@@ -176,8 +168,8 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	return &res.Cluster, nil
 }
 
-func (c *Client) DeleteCluster(name string) error {
-	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", c.baseURL, name)
+func (c *Client) DeleteCluster(name string, managementCluster string, provisionerName string) error {
+	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s?fullName.managementClusterName=%s&fullName.provisionerName=%s", c.baseURL, name, managementCluster, provisionerName)
 
 	req, err := http.NewRequest("DELETE", requestURL, nil)
 	if err != nil {

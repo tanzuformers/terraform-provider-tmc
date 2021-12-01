@@ -58,7 +58,7 @@ func resourceClusterGroupCreate(ctx context.Context, d *schema.ResourceData, m i
 		return diags
 	}
 
-	d.SetId(clusterGroup.Meta.SimpleMetaData.UID)
+	d.SetId(clusterGroup.Meta.UID)
 
 	resourceClusterGroupRead(ctx, d, m)
 
@@ -84,7 +84,7 @@ func resourceClusterGroupRead(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	d.Set("description", clusterGroup.Meta.Description)
-	if err := d.Set("labels", clusterGroup.Meta.SimpleMetaData.Labels); err != nil {
+	if err := d.Set("labels", clusterGroup.Meta.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Failed to read workspace",
@@ -92,7 +92,7 @@ func resourceClusterGroupRead(ctx context.Context, d *schema.ResourceData, m int
 		})
 		return diags
 	}
-	d.Set("id", clusterGroup.Meta.SimpleMetaData.UID)
+	d.Set("id", clusterGroup.Meta.UID)
 
 	return nil
 }

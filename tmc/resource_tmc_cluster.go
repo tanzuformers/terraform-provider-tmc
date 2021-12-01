@@ -135,7 +135,7 @@ func resourceTmcClusterRead(ctx context.Context, d *schema.ResourceData, meta in
 	d.Set("cluster_group_name", cluster.Spec.ClusterGroupName)
 	d.Set("installer_link", cluster.Status.InstallerLink)
 
-	if err := d.Set("labels", cluster.Meta.SimpleMetaData.Labels); err != nil {
+	if err := d.Set("labels", cluster.Meta.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
 			Summary:  "Failed to read clustergroup",
@@ -158,7 +158,7 @@ func resourceTmcClusterRead(ctx context.Context, d *schema.ResourceData, meta in
 		})
 		return diags
 	}
-	d.SetId(string(cluster.Meta.SimpleMetaData.UID))
+	d.SetId(string(cluster.Meta.UID))
 
 	return diags
 }
@@ -178,7 +178,7 @@ func resourceTmcClusterCreate(ctx context.Context, d *schema.ResourceData, meta 
 		return diag.FromErr(err)
 	}
 
-	d.SetId(string(cluster.Meta.SimpleMetaData.UID))
+	d.SetId(string(cluster.Meta.UID))
 
 	return resourceTmcClusterRead(ctx, d, meta)
 }
@@ -218,7 +218,7 @@ func resourceTmcClusterDelete(ctx context.Context, d *schema.ResourceData, meta 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	err := client.DeleteCluster(d.Get("name").(string))
+	err := client.DeleteCluster(d.Get("name").(string), d.Get("management_cluster").(string), d.Get("provisioner_name").(string))
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
