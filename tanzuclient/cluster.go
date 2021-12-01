@@ -44,12 +44,12 @@ type AWSCluster struct {
 }
 
 type ClusterSpec struct {
-	ClusterGroupName string     `json:"clusterGroupName"`
-	TkgAws           AWSCluster `json:"tkgAws,omitempty"`
+	ClusterGroupName string `json:"clusterGroupName"`
+	//TkgAws           AWSCluster `json:"tkgAws,omitempty"`
 }
 
 type ClusterStatus struct {
-	InstallerLink string `json:installerLink`
+	InstallerLink string `json:"installerLink"`
 }
 
 type Cluster struct {

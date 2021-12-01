@@ -163,13 +163,13 @@ func flattenAwsData(data *tanzuclient.Cluster) map[string]interface{} {
 	// pods_cidrs := make([]interface{}, 0)
 	// pods_cidrs = append(pods_cidrs, data.Spec.TkgAws.Settings.Network.ClusterNetwork.Pods)
 
-	aws["availability_zones"] = data.Spec.TkgAws.Topology.ControlPlane.AvailabilityZones
-	aws["instance_type"] = data.Spec.TkgAws.Topology.ControlPlane.InstanceType
-	aws["vpc_cidrblock"] = data.Spec.TkgAws.Settings.Network.Provider.Vpc.CidrBlock
-	aws["region"] = data.Spec.TkgAws.Distribution.Region
-	aws["credential_name"] = data.Spec.TkgAws.Distribution.ProvisionerCredentialName
-	aws["version"] = data.Spec.TkgAws.Distribution.Version
-	aws["ssh_key"] = data.Spec.TkgAws.Settings.Security.SshKey
+	// aws["availability_zones"] = data.Spec.TkgAws.Topology.ControlPlane.AvailabilityZones
+	// aws["instance_type"] = data.Spec.TkgAws.Topology.ControlPlane.InstanceType
+	// aws["vpc_cidrblock"] = data.Spec.TkgAws.Settings.Network.Provider.Vpc.CidrBlock
+	// aws["region"] = data.Spec.TkgAws.Distribution.Region
+	// aws["credential_name"] = data.Spec.TkgAws.Distribution.ProvisionerCredentialName
+	// aws["version"] = data.Spec.TkgAws.Distribution.Version
+	// aws["ssh_key"] = data.Spec.TkgAws.Settings.Security.SshKey
 	// aws["pods_cidrblocks"] = pods_cidrs
 
 	return aws

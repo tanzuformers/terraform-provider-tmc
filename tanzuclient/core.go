@@ -11,7 +11,7 @@ type SimpleMetaData struct {
 }
 
 type MetaData struct {
-	SimpleMetaData SimpleMetaData
+	SimpleMetaData `json:",inline"`
 	Description    string `json:"description"`
 }
 
@@ -21,12 +21,12 @@ type SimpleFullName struct {
 }
 
 type FullName struct {
-	SimpleFullName        SimpleFullName
+	SimpleFullName        `json:",inline"`
 	ManagementClusterName string `json:"managementClusterName"`
 }
 
 type FullNameProvisioned struct {
-	FullName        FullName
+	FullName        `json:",inline"`
 	ProvisionerName string `json:"provisionerName,omitempty"`
 }
 
