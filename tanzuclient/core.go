@@ -8,14 +8,18 @@ import (
 type MetaData struct {
 	UID         string                 `json:"uid"`
 	Labels      map[string]interface{} `json:"labels,omitempty"`
-	Description string                 `json:"description"`
+	Description string                 `json:"description,omitempty"`
 }
 
 type FullName struct {
 	OrgID                 string `json:"orgId"`
 	Name                  string `json:"name"`
 	ManagementClusterName string `json:"managementClusterName,omitempty"`
-	ProvisionerName       string `json:"provisionerName,omitempty"`
+}
+
+type FullNameProvisioned struct {
+	FullName        `json:",inline"`
+	ProvisionerName string `json:"provisionerName,omitempty"`
 }
 
 type errorResponse struct {

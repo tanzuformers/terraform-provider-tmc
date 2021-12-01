@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -46,18 +45,18 @@ type AWSCluster struct {
 
 type ClusterSpec struct {
 	ClusterGroupName string `json:"clusterGroupName"`
-	// TkgAws           AWSCluster `json:"tkgAws,omitempty"`
+	//TkgAws           AWSCluster `json:"tkgAws,omitempty"`
 }
 
 type ClusterStatus struct {
-	InstallerLink string `json:installerLink`
+	InstallerLink string `json:"installerLink"`
 }
 
 type Cluster struct {
-	FullName *FullName      `json:"fullName"`
-	Meta     *MetaData      `json:"meta"`
-	Spec     *ClusterSpec   `json:"spec"`
-	Status   *ClusterStatus `json:"status"`
+	FullName *FullNameProvisioned `json:"fullName"`
+	Meta     *MetaData            `json:"meta"`
+	Spec     *ClusterSpec         `json:"spec"`
+	Status   *ClusterStatus       `json:"status"`
 }
 
 type ClusterJSONObject struct {
@@ -85,10 +84,12 @@ func (c *Client) CreateCluster(name string, description string, managementCluste
 	requestURL := fmt.Sprintf("%s/v1alpha1/clusters", c.baseURL)
 
 	newCluster := &Cluster{
-		FullName: &FullName{
-			Name:                  name,
-			ManagementClusterName: managementCluster,
-			ProvisionerName:       provisionerName,
+		FullName: &FullNameProvisioned{
+			FullName: FullName{
+				Name:                  name,
+				ManagementClusterName: managementCluster,
+			},
+			ProvisionerName: provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
@@ -108,8 +109,6 @@ func (c *Client) CreateCluster(name string, description string, managementCluste
 	if err != nil {
 		return nil, err
 	}
-
-	log.Printf("DEBUG: %s", string(json_data))
 
 	req, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(json_data))
 	if err != nil {
@@ -129,10 +128,12 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	requestURL := fmt.Sprintf("%s/v1alpha1/clusters/%s", c.baseURL, name)
 
 	newCluster := &Cluster{
-		FullName: &FullName{
-			Name:                  name,
-			ManagementClusterName: managementCluster,
-			ProvisionerName:       provisionerName,
+		FullName: &FullNameProvisioned{
+			FullName: FullName{
+				Name:                  name,
+				ManagementClusterName: managementCluster,
+			},
+			ProvisionerName: provisionerName,
 		},
 		Meta: &MetaData{
 			Description: description,
@@ -152,8 +153,6 @@ func (c *Client) UpdateCluster(name string, description string, managementCluste
 	if err != nil {
 		return nil, err
 	}
-
-	log.Printf("DEBUG: %s", string(json_data))
 
 	req, err := http.NewRequest("PUT", requestURL, bytes.NewBuffer(json_data))
 	if err != nil {
