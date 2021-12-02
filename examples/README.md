@@ -4,7 +4,7 @@ This directory contains examples of TMC Resources that can be run/tested manuall
 
 To run any example, clone the repository and run `terraform apply` within the example's own directory.
 
-The document generation tool looks for files in the following locations by default. All other *.tf files besides the ones mentioned below are ignored by the documentation tool.
+The document generation tool looks for files in the following locations by default. All other *.tf files besides the ones mentioned below are ignored by the documentation tool. 
 
 * **provider/provider.tf** example file for the provider index page
 * **data-sources/<full data source name>/data-source.tf** example file for the named data source page

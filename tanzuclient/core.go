@@ -5,21 +5,35 @@ import (
 	"strings"
 )
 
-type MetaData struct {
-	UID         string                 `json:"uid"`
-	Labels      map[string]interface{} `json:"labels,omitempty"`
-	Description string                 `json:"description,omitempty"`
-}
-
 type FullName struct {
 	OrgID                 string `json:"orgId"`
 	Name                  string `json:"name"`
-	ManagementClusterName string `json:"managementClusterName,omitempty"`
+	ManagementClusterName string `json:"managementClusterName"`
+	ProvisionerName       string `json:"provisionerName,omitempty"`
+	ClusterName           string `json:"clusterName,omitempty"`
 }
 
-type FullNameProvisioned struct {
-	FullName        `json:",inline"`
-	ProvisionerName string `json:"provisionerName,omitempty"`
+type MetaData struct {
+	UID             string                 `json:"uid"`
+	Description     string                 `json:"description"`
+	Labels          map[string]interface{} `json:"labels,omitempty"`
+	ResourceVersion string                 `json:"resourceVersion,omitempty"`
+	Annotations     map[string]string      `json:"annotations,omitempty"`
+}
+
+type Status struct {
+	Phase string `json:"phase,omitempty"`
+}
+
+type LabelSelector struct {
+	MatchLabels      map[string]interface{} `json:"matchLabels,omitempty"`
+	MatchExpressions []MatchExpressions     `json:"matchExpressions,omitempty"`
+}
+
+type MatchExpressions struct {
+	Key      string   `json:"key"`
+	Operator string   `json:"operator"`
+	Values   []string `json:"values"`
 }
 
 type errorResponse struct {

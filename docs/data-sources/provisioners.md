@@ -17,7 +17,7 @@ description: |-
 
 ### Required
 
-- **management_cluster_name** (List of String) Management Cluster Name of the Tanzu Provisioners
+- **management_cluster_name** (String) Management Cluster Name of the Tanzu Provisioners
 
 ### Optional
 

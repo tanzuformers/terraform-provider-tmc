@@ -6,7 +6,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	"github.com/tanzuformers/terraform-provider-tmc/tanzuclient"
 )
 
@@ -27,10 +26,9 @@ func dataSourceTmcProvisioners() *schema.Resource {
 				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
 			"management_cluster_name": {
-				Type:        schema.TypeList,
+				Type:        schema.TypeString,
 				Required:    true,
 				Description: "Management Cluster Name of the Tanzu Provisioners",
-				Elem:        &schema.Schema{Type: schema.TypeString},
 			},
 			"labels": labelsSchema(),
 		},

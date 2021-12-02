@@ -40,14 +40,19 @@ func dataSourceClusterGroupRead(ctx context.Context, d *schema.ResourceData, met
 
 	clusterGroup, err := client.GetClusterGroup(d.Get("name").(string))
 	if err != nil {
-		return diag.FromErr(err)
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Failed to read cluster group",
+			Detail:   fmt.Sprintf("Error reading resource %s: %s", d.Get("name"), err),
+		})
+		return diags
 	}
 
 	d.Set("description", clusterGroup.Meta.Description)
 	if err := d.Set("labels", clusterGroup.Meta.Labels); err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
-			Summary:  "Failed to read clustergroup",
+			Summary:  "Failed to read cluster group",
 			Detail:   fmt.Sprintf("Error setting labels for resource %s: %s", d.Get("name"), err),
 		})
 		return diags

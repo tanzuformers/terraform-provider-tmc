@@ -6,10 +6,6 @@ TESTTIMEOUT=180m
 
 default: build
 
-tools:
-	@echo "==> installing required tooling..."
-	go install  github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
-
 build: fmt generate
 	go install
 
@@ -23,4 +19,4 @@ generate:
 testacc: fmt
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout $(TESTTIMEOUT) -ldflags="-X=github.com/tanzuformers/terraform-provider-tmc/version.ProviderVersion=acc"
 
-.PHONY: tools build fmt generate testacc
+.PHONY: build fmt generate testacc

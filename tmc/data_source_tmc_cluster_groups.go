@@ -2,6 +2,7 @@ package tmc
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -39,7 +40,12 @@ func dataSourceClusterGroupsRead(ctx context.Context, d *schema.ResourceData, me
 
 	res, err := client.GetAllClusterGroups(labels)
 	if err != nil {
-		return diag.FromErr(err)
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Failed to read cluster groups",
+			Detail:   fmt.Sprintf("Error reading resource %s: %s", d.Get("name"), err),
+		})
+		return diags
 	}
 
 	clusterGroupNames := make([]interface{}, len(*res))

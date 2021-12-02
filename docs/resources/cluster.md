@@ -17,33 +17,19 @@ description: |-
 
 ### Required
 
-- **management_cluster** (String) Name of the management cluster used
+- **cluster_group** (String) Name of the cluster group
+- **management_cluster** (String) Name of an existing management cluster to be used
 - **name** (String) Name of the Cluster
-- **provisioner_name** (String) Name of the provisioner
+- **provisioner_name** (String) Name of an existing provisioner to be used
 
 ### Optional
 
-- **cluster_group_name** (String) Name of the cluster group
 - **description** (String) Description of the Cluster
 - **labels** (Map of String)
-- **tkg_aws** (Block List) Details of Cluster hosted on AWS (see [below for nested schema](#nestedblock--tkg_aws))
 
 ### Read-Only
 
 - **id** (String) Unique ID of the Cluster
-- **installer_link** (String) The link to install the agent
-
-<a id="nestedblock--tkg_aws"></a>
-### Nested Schema for `tkg_aws`
-
-Optional:
-
-- **availability_zones** (List of String) Availability zones of the control plane node
-- **credential_name** (String) Kubernetes version of the AWS Cluster
-- **instance_type** (String) Instance type used to deploy the control plane node
-- **region** (String) Region of the AWS Cluster
-- **ssh_key** (String) Name of the SSH Keypair used in the AWS Cluster
-- **version** (String) Provisioner credential used to create the cluster
-- **vpc_cidrblock** (String) CIDR block used by the Cluster's VPC
+- **resource_version** (String) Resource version of the Cluster
 
 

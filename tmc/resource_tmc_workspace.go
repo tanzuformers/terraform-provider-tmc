@@ -71,7 +71,13 @@ func resourceTmcWorkspaceRead(ctx context.Context, d *schema.ResourceData, meta 
 func resourceTmcWorkspaceCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	client := meta.(*tanzuclient.Client)
 
-	workspace, err := client.CreateWorkspace(d.Get("name").(string), d.Get("description").(string), d.Get("labels").(map[string]interface{}))
+	var workspaceName = d.Get("name").(string)
+
+	if !IsValidTanzuName(workspaceName) {
+		return InvalidTanzuNameError("workspace")
+	}
+
+	workspace, err := client.CreateWorkspace(workspaceName, d.Get("description").(string), d.Get("labels").(map[string]interface{}))
 	if err != nil {
 		return diag.FromErr(err)
 	}

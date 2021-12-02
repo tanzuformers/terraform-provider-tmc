@@ -58,7 +58,7 @@ func (c *Client) GetAllProvisioners(mgmtClusterName string, labels map[string]in
 	return res.Provisioners, nil
 }
 
-func (c *Client) CreateProvisioner(mgmtClusterName string, name string, description string, labels map[string]interface{}) (*Provisioner, error) {
+func (c *Client) CreateProvisioner(mgmtClusterName string, name string, labels map[string]interface{}) (*Provisioner, error) {
 	tmcURL := fmt.Sprintf("%s/v1alpha1/managementclusters/%s/provisioners", c.baseURL, mgmtClusterName)
 
 	provisioner := &Provisioner{
@@ -82,6 +82,43 @@ func (c *Client) CreateProvisioner(mgmtClusterName string, name string, descript
 	}
 
 	req, err := http.NewRequest("POST", tmcURL, bytes.NewBuffer(json_data))
+	if err != nil {
+		return nil, err
+	}
+
+	res := ProvisionerResponse{}
+
+	if err := c.sendRequest(req, &res); err != nil {
+		return nil, err
+	}
+
+	return &res.Provisioner, nil
+}
+
+func (c *Client) UpdateProvisioner(mgmtClusterName string, name string, labels map[string]interface{}) (*Provisioner, error) {
+	tmcURL := fmt.Sprintf("%s/v1alpha1/managementclusters/%s/provisioners/%s", c.baseURL, mgmtClusterName, name)
+
+	provisioner := &Provisioner{
+		FullName: &FullName{
+			Name:                  name,
+			ManagementClusterName: mgmtClusterName,
+		},
+		Meta: &MetaData{
+			Labels: labels,
+		},
+	}
+
+	provisionerResponse := &ProvisionerResponse{
+		Provisioner: *provisioner,
+	}
+
+	// Create JSON object for the request Body
+	json_data, err := json.Marshal(provisionerResponse) // returns []byte
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", tmcURL, bytes.NewBuffer(json_data))
 	if err != nil {
 		return nil, err
 	}

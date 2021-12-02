@@ -38,7 +38,7 @@ func main() {
 
 	if debugMode {
 		err := plugin.Debug(context.Background(),
-			"registry.terraform.io/hashicorp/azurerm",
+			"registry.terraform.io/tanzuformers/terraform-provider-tmc",
 			opts)
 		if err != nil {
 			log.Println(err.Error())

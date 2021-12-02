@@ -28,22 +28,8 @@ description: |-
 
 ### Read-Only
 
-- **cluster_group_name** (String) Name of the cluster group
+- **cluster_group** (String) Name of the cluster group
 - **description** (String) Description of the Cluster
 - **id** (String) Unique ID of the Cluster
-- **tkg_aws** (List of Object) Details of Cluster hosted on AWS (see [below for nested schema](#nestedatt--tkg_aws))
-
-<a id="nestedatt--tkg_aws"></a>
-### Nested Schema for `tkg_aws`
-
-Read-Only:
-
-- **availability_zones** (List of String)
-- **credential_name** (String)
-- **instance_type** (String)
-- **region** (String)
-- **ssh_key** (String)
-- **version** (String)
-- **vpc_cidrblock** (String)
 
 
